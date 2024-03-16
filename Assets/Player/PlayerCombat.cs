@@ -7,7 +7,8 @@ public class PlayerCombat : MonoBehaviour
     int maxCombo = 2;
 
     bool idle = false;
-    bool attacking;
+    bool blocking = false;
+    bool attacking = false;
     int comboPos = 0;
 
     Animator animator;
@@ -19,22 +20,32 @@ public class PlayerCombat : MonoBehaviour
     }
 
     void Update() {
-        if (Input.GetMouseButtonDown(0)) {
-            if (!attacking) {
-                attacking = true;
+        if (Input.GetMouseButtonDown(1) && !attacking) {
+            Debug.Log("Block");
+            blocking = true;
+            comboPos = 0;
+            UpdateAnimator();
+        } else if (Input.GetMouseButtonDown(0) && !attacking && !blocking) {
+            attacking = true;
 
-                if (comboPos == 0) {
-                    comboPos ++;
-                    Debug.Log("first attack");
-                    idle = comboPos == 0;
-                    UpdateAnimator();
-                }
-
-                idle = comboPos == 0;
+            if (comboPos == 0)
+            {
+                comboPos++;
+                Debug.Log("first attack");
+                UpdateAnimator();
             }
+
+            SetIdle();
         }
 
-        
+        if (Input.GetMouseButtonUp(1) && blocking) {
+            blocking = false;
+            UpdateAnimator();
+        }
+    }
+
+    void SetIdle() {
+        idle = comboPos == 0 && !blocking;
     }
 
     public void AttackTriggered() {
@@ -60,13 +71,18 @@ public class PlayerCombat : MonoBehaviour
             Debug.Log("Attack not queued, idle = " + idle);
         }
 
-        idle = comboPos == 0;
         UpdateAnimator();
     }
 
+    public void HitPlayer() {
+        
+    }
+
     void UpdateAnimator() {
+        SetIdle();
         animator.SetBool("Idling", idle);
         animator.SetBool("Punching", comboPos == 1);
         animator.SetBool("FollowingUp", comboPos == 2);
+        animator.SetBool("Blocking", blocking);
     }
 }
