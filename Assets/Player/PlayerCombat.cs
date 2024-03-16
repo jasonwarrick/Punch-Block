@@ -12,32 +12,29 @@ public class PlayerCombat : MonoBehaviour
 
     Animator animator;
 
-    // Start is called before the first frame update
     void Start() {
         animator = GetComponentInChildren<Animator>();
 
         UpdateAnimator();
-        idle = comboPos == 0;
     }
 
-    // Update is called once per frame
     void Update() {
-        Debug.Log(comboPos == 0);
-        idle = comboPos == 0;
-
         if (Input.GetMouseButtonDown(0)) {
-            attacking = true;
+            if (!attacking) {
+                attacking = true;
 
-            if (comboPos == 0) {
-                comboPos ++;
-                Debug.Log("first attack");
-                UpdateAnimator();
-            }
+                if (comboPos == 0) {
+                    comboPos ++;
+                    Debug.Log("first attack");
+                    idle = comboPos == 0;
+                    UpdateAnimator();
+                }
 
-            if (comboPos == maxCombo) {
-                comboPos = 1;
+                idle = comboPos == 0;
             }
         }
+
+        
     }
 
     public void AttackTriggered() {
@@ -49,13 +46,21 @@ public class PlayerCombat : MonoBehaviour
         Debug.Log("ended");
         if (attacking && comboPos > 0) {
             comboPos++;
+
+            if (comboPos > maxCombo) {
+                comboPos = 1;
+            }
+
+            attacking = true;
             Debug.Log("Attack queued");
         } else {
             attacking = false;
             comboPos = 0;
-            Debug.Log("Attack not queued");
+            
+            Debug.Log("Attack not queued, idle = " + idle);
         }
 
+        idle = comboPos == 0;
         UpdateAnimator();
     }
 
