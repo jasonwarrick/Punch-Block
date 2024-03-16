@@ -9,6 +9,7 @@ public class PlayerCombat : MonoBehaviour
     bool isIdle = false;
     bool isBlocking = false;
     bool isAttacking = false;
+    bool isKnocked = false;
     int comboPos = 0;
 
     Animator animator;
@@ -20,23 +21,27 @@ public class PlayerCombat : MonoBehaviour
     }
 
     void Update() {
-        if (Input.GetMouseButton(1) && !isAttacking && !isBlocking) {
-            Debug.Log("Block");
-            isBlocking = true;
-            comboPos = 0;
-            UpdateAnimator();
-        } else if (Input.GetMouseButtonDown(0) && !isAttacking && !isBlocking) {
-            isAttacking = true;
-
-            if (comboPos == 0)
-            {
-                comboPos++;
-                Debug.Log("first attack");
-                UpdateAnimator();
-            }
-
-            SetIdle();
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            HitPlayer();
         }
+
+        if (!isAttacking && !isBlocking && !isKnocked) {
+            if (Input.GetMouseButton(1)) {
+                isBlocking = true;
+                comboPos = 0;
+                UpdateAnimator();
+            } else if (Input.GetMouseButtonDown(0)) {
+                isAttacking = true;
+
+                if (comboPos == 0) {
+                    comboPos++;
+                    Debug.Log("first attack");
+                    UpdateAnimator();
+                }
+
+                SetIdle();
+            }
+        } 
 
         if (Input.GetMouseButtonUp(1) && isBlocking) {
             isBlocking = false;
@@ -45,7 +50,7 @@ public class PlayerCombat : MonoBehaviour
     }
 
     void SetIdle() {
-        isIdle = comboPos == 0 && !isBlocking;
+        isIdle = comboPos == 0 && !isBlocking && !isKnocked;
     }
 
     public void AttackTriggered() {
@@ -78,7 +83,16 @@ public class PlayerCombat : MonoBehaviour
     }
 
     public void HitPlayer() {
-        
+        isKnocked = true;
+        isAttacking = false;
+        isBlocking = false;
+        comboPos = 0;
+        animator.SetTrigger("IsHit");
+    }
+
+    public void EndHitPlayer() {
+        isKnocked = false;
+        UpdateAnimator();
     }
 
     void UpdateAnimator() {
