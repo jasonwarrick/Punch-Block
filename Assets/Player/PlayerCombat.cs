@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
+    public delegate void AttackEnemy(float damage);
+    public static AttackEnemy attackEnemy;
+
+    [SerializeField] float maxHealth;
+    [SerializeField] float damage;
     int maxCombo = 2;
 
     bool isIdle = false;
@@ -12,19 +17,20 @@ public class PlayerCombat : MonoBehaviour
     bool isKnocked = false;
     int comboPos = 0;
 
+    float currentHealth = 0f;
+
     Animator animator;
 
     void Start() {
+        EnemyCombat.attackPlayer += EnemyAttacksPlayer;
+
         animator = GetComponentInChildren<Animator>();
 
         UpdateAnimator();
+        HealPlayer(maxHealth - currentHealth);
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            HitPlayer();
-        }
-
         if (!isAttacking && !isBlocking && !isKnocked) {
             if (Input.GetMouseButton(1)) {
                 isBlocking = true;
@@ -35,7 +41,6 @@ public class PlayerCombat : MonoBehaviour
 
                 if (comboPos == 0) {
                     comboPos++;
-                    Debug.Log("first attack");
                     UpdateAnimator();
                 }
 
@@ -53,8 +58,14 @@ public class PlayerCombat : MonoBehaviour
         isIdle = comboPos == 0 && !isBlocking && !isKnocked;
     }
 
+    void HealPlayer(float healAmt) {
+        currentHealth += healAmt;
+        Debug.Log("Enemy health is at " + currentHealth);
+    }
+
     public void AttackTriggered() {
         Debug.Log("attack");
+        attackEnemy.Invoke(damage);
     }
 
     public void ReadyForNextAttack() {
@@ -82,15 +93,17 @@ public class PlayerCombat : MonoBehaviour
         UpdateAnimator();
     }
 
-    public void HitPlayer() {
-        isKnocked = true;
-        isAttacking = false;
-        isBlocking = false;
-        comboPos = 0;
-        animator.SetTrigger("IsHit");
+    public void EnemyAttacksPlayer(float enemyDamage) {
+        if(!isBlocking) {
+            isKnocked = true;
+            isAttacking = false;
+            comboPos = 0;
+            animator.SetTrigger("IsHit");
+            Debug.Log("Enemy health is at " + currentHealth);
+        }
     }
 
-    public void EndHitPlayer() {
+    public void EndPlayerHit() {
         isKnocked = false;
         UpdateAnimator();
     }

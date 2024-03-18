@@ -120,3 +120,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxAggro: 100
+  maxHealth: 100
+  damage: 8
