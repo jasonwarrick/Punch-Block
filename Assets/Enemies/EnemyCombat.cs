@@ -20,11 +20,14 @@ public class EnemyCombat : MonoBehaviour
     bool isHit = false;
 
     Animator animator;
+    HUDManager hudManager;
 
     void Start() {
         PlayerCombat.attackEnemy += PlayerAttacksEnemy;
 
         animator = GetComponent<Animator>();
+        hudManager = FindObjectOfType<HUDManager>();
+
         UpdateAnimator();
         HealEnemy(maxHealth - currentHealth);
     }
@@ -44,13 +47,15 @@ public class EnemyCombat : MonoBehaviour
 
     void HealEnemy(float healAmt) {
         currentHealth += healAmt;
+        hudManager.UpdateEnemyHB(currentHealth / maxHealth);
         Debug.Log("Enemy health is at " + currentHealth);
     }
 
     void PlayerAttacksEnemy(float playerDamage) {
-        if (!isBlocking) {
+        if (!isBlocking && !isAttacking) {
             isHit = true;
             currentHealth -= playerDamage;
+            hudManager.UpdateEnemyHB(currentHealth / maxHealth);
             animator.SetTrigger("Hit");
             Debug.Log("Enemy health is at " + currentHealth);
         }

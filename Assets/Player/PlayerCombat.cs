@@ -20,11 +20,13 @@ public class PlayerCombat : MonoBehaviour
     float currentHealth = 0f;
 
     Animator animator;
+    HUDManager hudManager;
 
     void Start() {
         EnemyCombat.attackPlayer += EnemyAttacksPlayer;
 
         animator = GetComponentInChildren<Animator>();
+        hudManager = FindObjectOfType<HUDManager>();
 
         UpdateAnimator();
         HealPlayer(maxHealth - currentHealth);
@@ -60,6 +62,7 @@ public class PlayerCombat : MonoBehaviour
 
     void HealPlayer(float healAmt) {
         currentHealth += healAmt;
+        hudManager.UpdatePlayerHB(currentHealth / maxHealth);
         Debug.Log("Enemy health is at " + currentHealth);
     }
 
@@ -98,8 +101,10 @@ public class PlayerCombat : MonoBehaviour
             isKnocked = true;
             isAttacking = false;
             comboPos = 0;
+            currentHealth -= enemyDamage;
+            hudManager.UpdatePlayerHB(currentHealth / maxHealth);
             animator.SetTrigger("IsHit");
-            Debug.Log("Enemy health is at " + currentHealth);
+            Debug.Log("Player health is at " + currentHealth);
         }
     }
 
