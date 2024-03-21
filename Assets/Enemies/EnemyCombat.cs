@@ -10,6 +10,7 @@ public class EnemyCombat : MonoBehaviour
     [SerializeField] float maxAggro;
     [SerializeField] float maxHealth;
     [SerializeField] float damage;
+    [SerializeField] float aggroOnHit;
 
     float currentHealth = 0f;
     float aggroRate = 0.5f;
@@ -57,6 +58,8 @@ public class EnemyCombat : MonoBehaviour
             currentHealth -= playerDamage;
             hudManager.UpdateEnemyHB(currentHealth / maxHealth);
             animator.SetTrigger("Hit");
+            currentAgro += aggroOnHit;
+            currentAgro = Mathf.Clamp(currentAgro, 0f, maxAggro);
             Debug.Log("Enemy health is at " + currentHealth);
         }
     }
