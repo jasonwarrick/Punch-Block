@@ -21,6 +21,7 @@ public class PlayerCombat : MonoBehaviour
 
     Animator animator;
     HUDManager hudManager;
+    [SerializeField] PlayerAudioManager pam;
 
     void Start() {
         EnemyCombat.attackPlayer += EnemyAttacksPlayer;
@@ -119,5 +120,10 @@ public class PlayerCombat : MonoBehaviour
         animator.SetBool("Punching", comboPos == 1);
         animator.SetBool("FollowingUp", comboPos == 2);
         animator.SetBool("Blocking", isBlocking);
+
+        if (comboPos > 0) {
+            pam.PlayPunchWhoosh(comboPos);
+            Debug.Log("play sound");
+        }
     }
 }

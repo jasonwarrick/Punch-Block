@@ -544,18 +544,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1973552983}
     m_Modifications:
     - target: {fileID: 343581447934648013, guid: f5a2c78b033c26143b95a1479c5f3bcd, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.1861055
-      objectReference: {fileID: 0}
-    - target: {fileID: 343581447934648013, guid: f5a2c78b033c26143b95a1479c5f3bcd, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.1861055
-      objectReference: {fileID: 0}
-    - target: {fileID: 343581447934648013, guid: f5a2c78b033c26143b95a1479c5f3bcd, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.1861055
-      objectReference: {fileID: 0}
-    - target: {fileID: 343581447934648013, guid: f5a2c78b033c26143b95a1479c5f3bcd, type: 3}
       propertyPath: m_LocalPosition.x
       value: -15.176217
       objectReference: {fileID: 0}
@@ -601,19 +589,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1102441465105819332, guid: f5a2c78b033c26143b95a1479c5f3bcd, type: 3}
       propertyPath: damage
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1102441465105819332, guid: f5a2c78b033c26143b95a1479c5f3bcd, type: 3}
-      propertyPath: maxAggro
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 1102441465105819332, guid: f5a2c78b033c26143b95a1479c5f3bcd, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1102441465105819332, guid: f5a2c78b033c26143b95a1479c5f3bcd, type: 3}
-      propertyPath: aggroOnHit
-      value: 2
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -766,27 +742,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3130810619181741502, guid: 3542ac50e960e0d44a769c78bee2ca8c, type: 3}
       propertyPath: damage
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3130810619181741502, guid: 3542ac50e960e0d44a769c78bee2ca8c, type: 3}
-      propertyPath: m_Enabled
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4374705304806163379, guid: 3542ac50e960e0d44a769c78bee2ca8c, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6850879887130420707, guid: 3542ac50e960e0d44a769c78bee2ca8c, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.7071
-      objectReference: {fileID: 0}
-    - target: {fileID: 6850879887130420707, guid: 3542ac50e960e0d44a769c78bee2ca8c, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.7071
-      objectReference: {fileID: 0}
-    - target: {fileID: 6850879887130420707, guid: 3542ac50e960e0d44a769c78bee2ca8c, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.7071
       objectReference: {fileID: 0}
     - target: {fileID: 6850879887130420707, guid: 3542ac50e960e0d44a769c78bee2ca8c, type: 3}
       propertyPath: m_LocalPosition.x

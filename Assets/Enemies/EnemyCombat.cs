@@ -7,6 +7,9 @@ public class EnemyCombat : MonoBehaviour
     public delegate void AttackPlayer(float outDamage);
     public static AttackPlayer attackPlayer;
 
+    public delegate void EnemyHit();
+    public static EnemyHit enemyHit;
+
     [SerializeField] float maxAggro;
     [SerializeField] float maxHealth;
     [SerializeField] float damage;
@@ -61,6 +64,7 @@ public class EnemyCombat : MonoBehaviour
             currentAgro += aggroOnHit;
             currentAgro = Mathf.Clamp(currentAgro, 0f, maxAggro);
             Debug.Log("Enemy health is at " + currentHealth);
+            enemyHit.Invoke();
         }
     }
 
