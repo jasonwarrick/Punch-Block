@@ -64,11 +64,10 @@ public class PlayerCombat : MonoBehaviour
     void HealPlayer(float healAmt) {
         currentHealth += healAmt;
         hudManager.UpdatePlayerHB(currentHealth / maxHealth);
-        Debug.Log("Enemy health is at " + currentHealth);
+        // Debug.Log("Enemy health is at " + currentHealth);
     }
 
     public void AttackTriggered() {
-        Debug.Log("attack");
         attackEnemy.Invoke(damage);
     }
 
@@ -77,7 +76,6 @@ public class PlayerCombat : MonoBehaviour
     }
 
     public void AttackEnded() {
-        Debug.Log("ended");
         if (isAttacking && comboPos > 0) {
             comboPos++;
 
@@ -86,12 +84,12 @@ public class PlayerCombat : MonoBehaviour
             }
 
             isAttacking = true;
-            Debug.Log("Attack queued");
+            // Debug.Log("Attack queued");
         } else {
             isAttacking = false;
             comboPos = 0;
             
-            Debug.Log("Attack not queued, idle = " + isIdle);
+            // Debug.Log("Attack not queued, idle = " + isIdle);
         }
 
         UpdateAnimator();
@@ -105,7 +103,7 @@ public class PlayerCombat : MonoBehaviour
             currentHealth -= enemyDamage;
             hudManager.UpdatePlayerHB(currentHealth / maxHealth);
             animator.SetTrigger("IsHit");
-            Debug.Log("Player health is at " + currentHealth);
+            // Debug.Log("Player health is at " + currentHealth);
         }
     }
 
@@ -123,7 +121,6 @@ public class PlayerCombat : MonoBehaviour
 
         if (comboPos > 0) {
             pam.PlayPunchWhoosh(comboPos);
-            Debug.Log("play sound");
         }
     }
 }

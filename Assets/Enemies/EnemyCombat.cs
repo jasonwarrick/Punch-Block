@@ -22,6 +22,8 @@ public class EnemyCombat : MonoBehaviour
     bool isAttacking = false;
     bool isBlocking = false;
     bool isHit = false;
+    int phase = 1;
+    int comboPos = 0;
 
     Animator animator;
     HUDManager hudManager;
@@ -43,6 +45,7 @@ public class EnemyCombat : MonoBehaviour
             if (currentAgro >= maxAggro) { 
                 currentAgro = 0f;
                 isAttacking = true;
+                comboPos++;
                 // Debug.Log("Enemy attack");
                 UpdateAnimator();
             }
@@ -52,18 +55,24 @@ public class EnemyCombat : MonoBehaviour
     void HealEnemy(float healAmt) {
         currentHealth += healAmt;
         hudManager.UpdateEnemyHB(currentHealth / maxHealth);
-        Debug.Log("Enemy health is at " + currentHealth);
+        // Debug.Log("Enemy health is at " + currentHealth);
     }
 
     void PlayerAttacksEnemy(float playerDamage) {
         if (!isBlocking && !isAttacking) {
             isHit = true;
             currentHealth -= playerDamage;
+
+            if (currentHealth <= maxHealth / 2) {
+                phase++;
+                Debug.Log("Phase 2");
+            }
+
             hudManager.UpdateEnemyHB(currentHealth / maxHealth);
             animator.SetTrigger("Hit");
             currentAgro += aggroOnHit;
             currentAgro = Mathf.Clamp(currentAgro, 0f, maxAggro);
-            Debug.Log("Enemy health is at " + currentHealth);
+            // Debug.Log("Enemy health is at " + currentHealth);
             enemyHit.Invoke();
         }
     }
@@ -74,7 +83,21 @@ public class EnemyCombat : MonoBehaviour
 
     public void AttackEnded() {
         // Debug.Log("Enemy attack over");
-        isAttacking = false;
+        if (phase == 1) {
+            comboPos = 0;
+            isAttacking = false;
+        } else {
+            if (comboPos == 1) {
+                Debug.Log("First done");
+                comboPos++;
+                isAttacking = true;
+            } else if (comboPos == 2) {
+                Debug.Log("Second done");
+                comboPos = 0;
+                isAttacking = false;
+            }
+        }
+        
         UpdateAnimator();
     }
 
